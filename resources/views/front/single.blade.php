@@ -1,0 +1,27 @@
+@extends('front.layouts.main')
+@section('content')
+
+    <div class="card my-5">
+        <img
+            src="{{$movie->image}}"
+            alt=""
+            class="card-img-top img-thumbnail"
+        />
+        <main class="card-body">
+            <h4 class="card-title">{{$movie->name}}</h4>
+            <p class="card-text">
+                {{$movie->description}}
+                {{$movie->director->name}}
+            </p>
+        </main>
+        <footer class="card-footer">{{$movie->created_at}}</footer>
+    </div>
+    </div>
+    </div>
+
+        @include('front.widget.categoryWidget')
+        @endsection
+
+
+
+
