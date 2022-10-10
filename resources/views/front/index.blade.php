@@ -2,7 +2,7 @@
 @section('content')
 
     @foreach($movies as $movie)
-        <div class="col">
+        <div class="col-lg-4">
             <div class="card my-5">
                 <img
                     src="{{$movie->image}}"

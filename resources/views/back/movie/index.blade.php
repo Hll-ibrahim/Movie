@@ -10,16 +10,23 @@
                     <tr>
                         <th>Film Resmi</th>
                         <th>Filmin Adı</th>
+                        <th>Filmin Kategorileri</th>
                         <th>Filmin Puanı</th>
                         <th>Filmin Yönetmeni</th>
+                        <th></th>
                     </tr>
                     @foreach($movies as $movie)
                         <tr>
                             <td>
-                                <img src="{{$movie->image}}" height="100">
+                                <img src="{{$movie->image}}" height="150">
                             </td>
                             <td>
                                 {{$movie->name}}
+                            </td>
+                            <td>
+                                @foreach($movie->categories as $category)
+                                    {{$category->name}}
+                                @endforeach
                             </td>
                             <td>
                                 {{$movie->rating}}
@@ -27,6 +34,10 @@
                             <td>
                                 {{$movie->director->name}}
                             </td>
+                            <td>
+                                <a href="{{route('admin.movie.update',$movie->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            </td>
+
                         </tr>
                     @endforeach
                 </table>

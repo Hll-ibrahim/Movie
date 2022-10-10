@@ -10,19 +10,19 @@
                 <tr>
                     <th>Yönetmenin Resmi</th>
                     <th>Yönetmenin Adı</th>
-                    <th>Oynadığı Filmler</th>
+                    <th>Yönettiği Filmler</th>
                 </tr>
                 @foreach($directors as $director)
                     <tr>
                         <td>
-                            <img src="{{$director->image}}" height="100">
+                            <img src="{{$director->image}}" height="150">
                         </td>
                         <td>
                             {{$director->name}}
                         </td>
                         <td>
                             @foreach($director->movies as $movie)
-                                <span>{{$movie->name}}</span>
+                                <span>{{$movie->name}}</span><br>
                             @endforeach
                         </td>
                     </tr>

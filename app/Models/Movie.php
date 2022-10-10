@@ -11,11 +11,19 @@ class Movie extends Model
 
     public function categories() {
         return $this->belongsToMany(Category::class, 'movies_categories',
-            'categories_id', 'movies_id')->withTimestamps();
+            'movies_id', 'categories_id')->withTimestamps();
     }
 
     public function actors() {
         return $this->belongsToMany(Actor::class, 'actors', 'actors_id', 'movies_id');
+    }
+    public function isCategories($id) {
+        foreach ($this->categories as $category) {
+            if($category->id == $id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function director() {
