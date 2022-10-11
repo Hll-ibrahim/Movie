@@ -22,7 +22,10 @@
                                     <span>{{$movie->name}}</span><br>
                                 @endforeach
                             </td>
-                            <td><a href="{{route('admin.category.edit',$category->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a></td>
+                            <td>
+                                <a href="{{route('admin.category.edit',$category->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{route('admin.category.delete',$category->id)}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            </td>
                         </tr>
                     @endforeach
                 </table>

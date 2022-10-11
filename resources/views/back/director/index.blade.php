@@ -11,6 +11,7 @@
                     <th>Yönetmenin Resmi</th>
                     <th>Yönetmenin Adı</th>
                     <th>Yönettiği Filmler</th>
+                    <th></th>
                 </tr>
                 @foreach($directors as $director)
                     <tr>
@@ -24,6 +25,12 @@
                             @foreach($director->movies as $movie)
                                 <span>{{$movie->name}}</span><br>
                             @endforeach
+                        </td>
+                        <td>
+                            @if($director->id !== 0)
+                                <a href="{{route('admin.director.edit',$director->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i> </a>
+                                <a href="{{route('admin.director.delete',$director->id)}}" class="btn btn-danger"><i class="fas fa-trash"></i> </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

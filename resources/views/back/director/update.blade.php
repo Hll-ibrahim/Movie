@@ -4,18 +4,25 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <span>Kategori Ekle</span>
+                    <span>Yönetmeni Güncelle</span>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{route('admin.category.update',$category->id)}}" method="post">
+                <form action="{{route('admin.director.update',$director->id)}}" method="post">
                     @csrf
+                    <div class="form-group my-4">
+                        <img src="{{$director->image}}" height="150"/>
+                    </div>
                     <div class="form-group my-4" >
-                        <label for="name">Kategori Adı</label>
-                        <input value="{{$category->name}}" class="form-control" id="name" type="text" name="name" required>
+                        <label for="name">Yönetmen Adı</label>
+                        <input class="form-control" id="name" type="text" name="name" value="{{$director->name}}" required>
+                    </div>
+                    <div class="form-group my-4" >
+                        <label for="image">Yönetmenin Resmi (link)</label>
+                        <input class="form-control" id="image" type="text" name="image" value="{{$director->image}}" required>
                     </div>
                     @foreach($movies as $movie)
-                        @if($category->isCategories($movie->id))
+                        @if($director->isDirected($movie->id))
                             <div class="form-group my-4" >
                                 <input checked type="checkbox" id="{{$movie->id}}" name="{{$movie->id}}">
                                 <label for="{{$movie->id}}">{{$movie->name}}</label>
@@ -28,7 +35,7 @@
                         @endif
                     @endforeach
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">Kategori Ekle</button>
+                        <button type="submit" class="btn btn-primary btn-block">Yönetmeni Kaydet</button>
                     </div>
                 </form>
             </div>

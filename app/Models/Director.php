@@ -12,4 +12,12 @@ class Director extends Model
     public function movies() {
         return $this->hasMany(Movie::class, 'director_id','id');
     }
+    public function isDirected($id) {
+        foreach ($this->movies as $movie) {
+            if ($movie->id == $id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

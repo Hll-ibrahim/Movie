@@ -17,14 +17,19 @@ Route::prefix('/admin')->name('admin.')->group(function() {
     Route::post('/movie/store',[MovieController::class, 'store'])->name('movie.store');
     Route::post('/movie/{id}', [MovieController::class, 'update'])->name('movie.update');
     Route::get('/movie/{id}', [MovieController::class, 'edit'])->name('movie.edit');
+    Route::get('/movie/delete/{id}',[MovieController::class, 'delete'])->name('movie.delete');
 
     Route::get('/directors', [DashboardController::class, 'directors'])->name('directors');
     Route::get('/director/create', [DirectorController::class, 'create'])->name('director.create');
     Route::post('/director/store', [DirectorController::class, 'store'])->name('director.store');
+    Route::get('/director/{id}',[DirectorController::class, 'edit'])->name('director.edit');
+    Route::post('/director/{id}',[DirectorController::class, 'update'])->name('director.update');
+    Route::get('/director/delete/{id}', [DirectorController::class, 'delete'])->name('director.delete');
 
     Route::get('/categories',[DashboardController::class, 'categories'])->name('categories');
     Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
     Route::post('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::get('/category/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+    Route::get('/category/delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
 });
 Route::get('/{category_id}', [CategoryController::class, 'index'])->name('category.index');

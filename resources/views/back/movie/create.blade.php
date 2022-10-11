@@ -12,11 +12,11 @@
                     @csrf
                     <div class="form-group my-4" >
                         <label for="name">Film Adı</label>
-                        <input class="form-control" id="name" type="text" name="name" required>
+                        <input class="form-control" id="name" type="text" name="name" autocomplete="off" required>
                     </div>
                     <div class="form-group my-4" >
                         <label for="image">Filmin Kapak Resmi (link)</label>
-                        <input class="form-control" id="image" type="text" name="image" required>
+                        <input class="form-control" id="image" type="text" name="image" autocomplete="off"  required>
                     </div>
                     <div class="form-group my-4" >
                         <label for="rating">Filmin Puanı</label>
@@ -25,7 +25,6 @@
                     <div class="form-group my-4" >
                         <label for="director">Filmin Yönetmeni</label>
                         <select class="form-control" title="Choose one of the following..." name="director_id" id="director" required>
-                            <option value="">Bir Yönetmen Seçiniz</option>
                             @foreach($directors as $director)
                             <option value="{{$director->id}}">{{$director->name}}</option>
                             @endforeach

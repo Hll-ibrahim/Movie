@@ -13,4 +13,12 @@ class Category extends Model
         return $this->belongsToMany(Movie::class, 'movies_categories',
             'categories_id', 'movies_id')->withTimestamps();
     }
+    public function isCategories($id) {
+        foreach ($this->movies as $movie) {
+            if($movie->id == $id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

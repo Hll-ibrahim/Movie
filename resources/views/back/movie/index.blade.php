@@ -35,9 +35,9 @@
                                 {{$movie->director->name}}
                             </td>
                             <td>
-                                <a href="{{route('admin.movie.update',$movie->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{route('admin.movie.edit',$movie->id)}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{route('admin.movie.delete',$movie->id)}}" class="btn btn-danger"><i class="fas fa-trash"></i> </a>
                             </td>
-
                         </tr>
                     @endforeach
                 </table>

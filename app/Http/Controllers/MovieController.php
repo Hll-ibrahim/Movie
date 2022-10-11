@@ -89,4 +89,16 @@ class MovieController extends Controller
         return redirect()->route('admin.movies');
     }
 
+    public function delete($id) {
+        $movie = Movie::find($id);
+        $categories = Category::orderBy('created_at','ASC')->get();
+        foreach($categories as $category) {
+            if($movie->isCategories($category->id)) {
+                MoviesCategories::where('movies_id',$movie->id)->where('categories_id',$category->id)->delete();
+            }
+        }
+        $movie->delete();
+        return view('admin.movies');
+    }
+
 }
