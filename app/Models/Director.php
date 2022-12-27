@@ -10,7 +10,7 @@ class Director extends Model
     use HasFactory;
 
     public function movies() {
-        return $this->hasMany(Movie::class, 'director_id','id');
+        return $this->hasMany(Movie::class);
     }
     public function isDirected($id) {
         foreach ($this->movies as $movie) {

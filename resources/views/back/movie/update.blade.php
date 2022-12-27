@@ -20,12 +20,11 @@
                     </div>
                     <div class="form-group my-4" >
                         <label for="description">Filmin Puanı</label>
-                        <input value="{{$movie->rating}}" type="number" class="form-control" id="description" name="rating" required>
+                        <input value="{{$movie->rating}}" type="number" step="0.1" class="form-control" id="description" name="rating" required>
                     </div>
                     <div class="form-group my-4" >
                         <label for="director">Filmin Yönetmeni</label>
                         <select class="form-control" title="Choose one of the following..." name="director_id" id="director" required>
-                            <option value="">Bir Yönetmen Seçiniz</option>
                             @foreach($directors as $director)
                                 @if($movie->director_id == $director->id)
                                     <option selected value="{{$director->id}}">{{$director->name}}</option>

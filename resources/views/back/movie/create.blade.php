@@ -19,8 +19,8 @@
                         <input class="form-control" id="image" type="text" name="image" autocomplete="off"  required>
                     </div>
                     <div class="form-group my-4" >
-                        <label for="rating">Filmin Puanı</label>
-                        <input type="number" class="form-control" id="rating" name="rating" required>
+                        <label for="rating">Filmin Puaanı</label>
+                        <input type="number" step="0.1" class="form-control" id="rating" name="rating" required>
                     </div>
                     <div class="form-group my-4" >
                         <label for="director">Filmin Yönetmeni</label>

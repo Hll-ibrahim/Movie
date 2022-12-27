@@ -98,7 +98,14 @@ class MovieController extends Controller
             }
         }
         $movie->delete();
-        return view('admin.movies');
+        return redirect()->route('admin.movies');
+    }
+
+    public function category($id){
+        $category = Category::find($id);
+        $movies = $category->movies()->get();
+        $categories = Category::all();
+        return view('front/index', compact('movies','categories'));
     }
 
 }

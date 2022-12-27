@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MovieSeeder extends Seeder
+class movie_seeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,15 +14,17 @@ class MovieSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0;$i<10;$i++) {
+        $names = ["Interstellar","Inseption","The Martian"];
+        $images = ["https://tr.web.img2.acsta.net/pictures/14/10/09/15/52/150664.jpg",
+                "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg",
+                "https://m.media-amazon.com/images/M/MV5BMTc2MTQ3MDA1Nl5BMl5BanBnXkFtZTgwODA3OTI4NjE@._V1_.jpg"];
+        for($i=0;$i<3;$i++) {
             DB::table('movies')->insert([
-                'name' => 'Avengers',
-                'image' => 'https://lumiere-a.akamaihd.net/v1/images/p_avengersendgame_19751_e14a0104.jpeg?region=0%2C0%2C540%2C810',
-                'director_id' => 1,
+                'name' => $names[$i],
+                'image' => $images[$i],
                 'rating' => 7,
-                'leadRole_id' => 1,
                 'description' => 'Earth \'s mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.',
-                'category_id' => rand(1, 8),
+                'director_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

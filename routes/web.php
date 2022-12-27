@@ -5,12 +5,26 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\DirectorController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 Route::get('/',[MovieController::class, 'index'])->name('index');
 Route::get('/movie/{id}',[MovieController::class, 'single'])->name('single');
+Route::get('/movie/category/{id}',[MovieController::class, 'category'])->name('movie.category');
 
-Route::prefix('/admin')->name('admin.')->group(function() {
-    Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::prefix('admin')->name('admin.')->group(function() {
+
+    Route::get('giris',[AuthController::class, 'login'])->name('login');
+    Route::post('giris',[AuthController::class, 'loginPost'])->name('login.post');
+
+    Route::get('kayit', [AuthController::class, 'register'])->name('register');
+    Route::post('kayit', [AuthController::class, 'registerPost'])->name('register.post');
+
+    Route::get('/cikis', [AuthController::class, 'logout'])->name('logout');
+});
+
+
+Route::prefix('admin')->name('admin.')->middleware('isUser')->group(function() {
+    Route::get('/', [DashboardController::class, 'movies'])->name('home');
 
     Route::get('/movies',[DashboardController::class, 'movies'])->name('movies');
     Route::get('/movie/create', [MovieController::class, 'create'])->name('movie.create');
@@ -26,10 +40,5 @@ Route::prefix('/admin')->name('admin.')->group(function() {
     Route::post('/director/{id}',[DirectorController::class, 'update'])->name('director.update');
     Route::get('/director/delete/{id}', [DirectorController::class, 'delete'])->name('director.delete');
 
-    Route::get('/categories',[DashboardController::class, 'categories'])->name('categories');
-    Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
-    Route::post('/category/{id}', [CategoryController::class, 'update'])->name('category.update');
-    Route::get('/category/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-    Route::get('/category/delete/{id}', [CategoryController::class, 'delete'])->name('category.delete');
+    Route::resource('categories', CategoryController::class)->middleware('isUser');
 });
-Route::get('/{category_id}', [CategoryController::class, 'index'])->name('category.index');

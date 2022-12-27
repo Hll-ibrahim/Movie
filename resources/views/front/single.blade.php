@@ -11,10 +11,11 @@
             <h4 class="card-title">{{$movie->name}}</h4>
             <p class="card-text">
                 {{$movie->description}}
-                {{$movie->director->name}}
             </p>
         </main>
-        <footer class="card-footer">{{$movie->created_at}}</footer>
+        <footer class="card-footer">
+            {{$movie->director->name}}
+        </footer>
     </div>
     </div>
     </div>

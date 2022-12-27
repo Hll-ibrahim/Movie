@@ -25,8 +25,11 @@
     <!-- custom css -->
     <link rel="stylesheet" href="{{asset('dashboard/perfect-scrollbar.css')}}" />
     <!--[if lt IE 9]>
+
+
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
@@ -969,7 +972,7 @@
                 <ul class="">
                     <h4>Diğer Ayarlar</h4>
                     <li>
-                        <a href="{{route('admin.categories')}}"><span>Bütün Kategoriler</span></a>
+                        <a href="{{route('admin.categories.index')}}"><span>Kategoriler</span></a>
                     </li>
                 </ul>
             </div>
@@ -986,10 +989,7 @@
                             <a href="{{route('admin.home')}}"><i class="fas fa-2x fa-home"></i></a>
                         </div>
                         <div class="logo_section m-3">
-                            <a href="https://www.instagram.com/hll_ibrahim0/"><i class="fa-brands fa-2x fa-instagram"></i></a>
-                        </div>
-                        <div class="logo_section m-3">
-                            <a href="https://github.com/Hll-ibrahim"><i class="fa-brands fa-2x fa-github"></i></a>
+                            <a href="{{route('admin.logout')}}" class=""><i class="fa-solid fa-2x fa-right-from-bracket"></i></a>
                         </div>
                     </div>
                 </nav>

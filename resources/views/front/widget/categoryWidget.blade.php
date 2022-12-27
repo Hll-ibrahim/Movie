@@ -11,7 +11,7 @@
                         <ul class="navbar-nav">
                             @foreach($categories as $category)
                                 <li class="nav-item">
-                                    <a href="{{route('category.index',$category->id)}}" class="nav-link">
+                                    <a href="{{route('movie.category',$category->id)}}" class="nav-link">
                                         <h3>
                                             {{$category->name}}
                                         </h3>

@@ -14,8 +14,7 @@ class category_seeder extends Seeder
      */
     public function run()
     {
-
-        $categories = ['Aksiyon', 'Bilim Kurgu', 'Korku', 'Komedi', 'Fantezi', 'Aşk', 'Müzikal', 'Western'];
+        $categories = ['Aksiyon', 'Bilim Kurgu', 'Korku', 'Komedi', 'Fantezi', 'Aşk', 'Müzikal', 'Dram'];
         foreach ($categories as $category) {
             DB::table('categories')->insert([
                 'name'=>$category,

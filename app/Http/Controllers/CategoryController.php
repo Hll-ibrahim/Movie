@@ -6,70 +6,49 @@ use App\Models\Category;
 use App\Models\MoviesCategories;
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller
 {
-    public function index($id) {
-        $categories = Category::orderBy('id', 'ASC')->get();
-        $category = Category::findOrFail($id);
-        return view('front.category', compact( 'categories', 'category'));
+    public function index(Request $request) {
+
+        $categories = Category::latest()->get();
+
+        if ($request->ajax()) {
+            $data = Category::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+
+                    $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editCategory">Edit</a>';
+
+                    $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCategory">Delete</a>';
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('back.category.index', compact( 'categories'));
     }
 
-    public function create() {
-        $categories = Category::orderBy('id', 'ASC')->get();
-        return view('back.category.create', compact('categories'));
-    }
 
     public function edit($id){
-        $category = Category::findOrFail($id);
-        $movies = Movie::all();
-        return view('back.category.update',compact('category', 'movies'));
-    }
-
-    public function update(Request $request, $id) {
         $category = Category::find($id);
-        $movies = Movie::all();
-        $category->name = $request->name;
-        $category->updated_at = now();
-        $category->save();
-
-        foreach ($movies as $movie){
-            if($request->{$movie->id} == "on") {
-                if($category->isCategories($movie->id)) {
-                    continue;
-                }
-                else {
-                    $movies_categories = new MoviesCategories;
-                    $movies_categories->movies_id = $movie->id;
-                    $movies_categories->categories_id = $category->id;
-                    $movies_categories->save();
-                }
-            }
-            else {
-                if(($movie->isCategories($category->id))) {
-                    $movies_categories = MoviesCategories::where('movies_id',$movie->id)->where('categories_id',$category->id);
-                    $movies_categories->delete();
-                }
-            }
-        }
-        return redirect()->route('admin.categories');
+        return response()->json($category);
     }
 
     public function store(Request $request) {
-        $category = new Category;
-        $category->name = $request->name;
-        $category->created_at = now();
-        $category->updated_at = now();
-        $category->save();
-        return redirect()->route('admin.categories');
+        Category::updateOrCreate(['id' => $request->category_id],
+            ['name' => $request->name]);
+        return response()->json(['success'=>'Category saved successfully.']);
     }
-
-    public function delete($id) {
+    public function destroy($id) {
         $category = Category::find($id);
         foreach($category->movies as $movie) {
             MoviesCategories::where('movies_id', $movie->id)->where('categories_id', $category->id)->delete();
         }
         $category->delete();
-        return redirect()->route('admin.categories');
+        return response()->json(['success'=>'Category deleted successfully.']);
     }
 }

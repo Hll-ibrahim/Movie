@@ -12,7 +12,7 @@
                 <main class="card-body">
                     <h4 class="card-title">{{$movie->name}}</h4>
                     <p class="card-text">
-                        {{$movie->descriptiion}}
+                        {{$movie->description}}
                     </p>
                     <a href="{{route('single',$movie->id)}}" class="btn btn-primary">Read More</a>
                 </main>

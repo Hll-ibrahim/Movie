@@ -11,7 +11,7 @@
 </div>
 </div>
 <!-- jQuery -->
-<script src="{{asset('dashboard/js/jquery.min.js')}}"></script>
+
 <script src="{{asset('dashboard/js/popper.min.js')}}"></script>
 <script src="{{asset('dashboard/js/bootstrap.min.js')}}"></script>
 <!-- wow animation -->

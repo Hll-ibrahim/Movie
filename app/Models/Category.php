@@ -21,4 +21,7 @@ class Category extends Model
         }
         return false;
     }
+    protected $fillable = [
+        'name'
+    ];
 }

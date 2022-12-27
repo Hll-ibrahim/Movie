@@ -55,7 +55,7 @@ class DirectorController extends Controller
     public function delete($id) {
         $director = Director::find($id);
         foreach($director->movies as $movie) {
-            $movie->director_id = 0;
+            $movie->director_id = 1;
             $movie->save();
         }
         $director->delete();
