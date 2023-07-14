@@ -9,6 +9,10 @@ class Movie extends Model
 {
     use HasFactory;
 
+    public function admin() {
+        return $this->belongsTo(User::class, 'admin_id','id');
+    }
+
     public function categories() {
         return $this->belongsToMany(Category::class, 'movies_categories',
             'movies_id', 'categories_id')->withTimestamps();

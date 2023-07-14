@@ -18,9 +18,11 @@ class CreateMovies extends Migration
             $table->string('name');
             $table->longText('image');
             $table->unsignedBigInteger('director_id');
+            $table->unsignedBigInteger('admin_id');
             $table->float('rating');
             $table->longText('description');
             $table->foreign('director_id')->references('id')->on('directors');
+            $table->foreign('admin_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
