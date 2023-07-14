@@ -23,10 +23,10 @@
                         </div>
                     @endif
                     <div class="form-group my-3">
-                        <input class="form-control" name="email" >
+                        <input class="form-control" name="email" placeholder="Enter E-Mail">
                     </div>
                     <div class="input-group my-3">
-                        <input type="password" class="form-control" name="password" >
+                        <input type="password" class="form-control" name="password" placeholder="Enter Password">
                     </div>
                     <span>Bir hesabın yok mu?</span><a href="{{route('admin.register')}}">Kaydol</a> <br>
                     <button type="Giriş" class="btn btn-success">Giriş</button>

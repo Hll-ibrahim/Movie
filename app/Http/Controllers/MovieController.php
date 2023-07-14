@@ -7,6 +7,7 @@ use App\Models\Movie;
 use App\Models\Director;
 use App\Models\MoviesCategories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
@@ -74,6 +75,7 @@ class MovieController extends Controller
         $movie->director_id = $request->director_id;
         $movie->rating = $request->rating;
         $movie->description = $request->description;
+        $movie->admin_id = Auth::user()->id;
         $movie->created_at = now();
         $movie->updated_at = now();
         $movie->save();

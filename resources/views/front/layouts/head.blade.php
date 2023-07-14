@@ -54,7 +54,7 @@
                     <a href="#" class="nav-link">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="{{route('admin.login')}}" class="nav-link">Log In</a>
                 </li>
             </ul>
         </div>
