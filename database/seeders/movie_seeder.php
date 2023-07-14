@@ -25,6 +25,7 @@ class movie_seeder extends Seeder
                 'rating' => 7,
                 'description' => 'Earth \'s mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.',
                 'director_id' => 1,
+                'admin_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

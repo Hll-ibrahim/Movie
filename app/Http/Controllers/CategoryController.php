@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
                     $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editCategory">Edit</a>';
 
-                    $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCategory">Delete</a>';
+                    $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-name="'.$row->name.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteCategory">Delete</a>';
 
                     return $btn;
                 })
@@ -39,10 +39,15 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request) {
+        $request->validate([
+            'name' => 'required'
+        ]);
         Category::updateOrCreate(['id' => $request->category_id],
             ['name' => $request->name]);
-        return response()->json(['success'=>'Category saved successfully.']);
+        return response()->json(['Success' => 'Success']);
+
     }
+
     public function destroy($id) {
         $category = Category::find($id);
         foreach($category->movies as $movie) {

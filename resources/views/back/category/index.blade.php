@@ -1,6 +1,14 @@
 @extends('back.layouts.main')
 @section('content')
-
+    @if ($errors->any())
+        <div id="Error_Copy" class="d-none">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 <div class="container mt-3">
     <h1>Kategoriler</h1>
     <a class="btn btn-success" href="javascript:void(0)" id="createNewBook">Kategori Ekle</a>
@@ -86,32 +94,72 @@
                 type: "POST",
                 dataType: 'json',
                 success: function (data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Başarılı!',
+                        html: 'Kategori kaydedildi.',
+                        showConfirmButton: true,
+                        confirmButtonText: "Tamam",
+                    })
                     $('#categoryForm').trigger("reset");
                     $('#ajaxModel').modal('hide');
                     table.draw();
                 },
                 error: function (data) {
-                    console.log('Error:', data);
+                    var err = JSON.parse(data.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Başarısız',
+                        html: err.message,
+                        showConfirmButton: true,
+                        confirmButtonText: "Tamam",
+                    });
                     $('#saveBtn').html('Save Changes');
                 }
             });
         });
 
         $('body').on('click', '.deleteCategory', function () {
-
             var category_id = $(this).data("id");
-            confirm("Are You sure want to delete !");
-
-            $.ajax({
-                type: "DELETE",
-                url: "{{ route('admin.categories.store') }}/"+category_id,
-                success: function (data) {
-                    table.draw();
-                },
-                error: function (data) {
-                    console.log('Error:', data);
+            var category_name = $(this).data("name");
+            Swal.fire({
+                title: category_name,
+                html: 'Kategoriyi silmek istediğinize emin misiniz?',
+                showDenyButton: true,
+                confirmButtonText: 'Sil',
+                denyButtonText: `İptal`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "{{ route('admin.categories.store') }}/"+category_id,
+                        success: function (data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı',
+                                html: category_name + ' kategorisi silindi!',
+                                showConfirmButton: true,
+                                confirmButtonText: "Tamam",
+                            });
+                            table.draw();
+                        },
+                        error: function (data) {
+                            var err = JSON.parse(data.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Başarısız',
+                                html: err.message,
+                                showConfirmButton: true,
+                                confirmButtonText: "Tamam",
+                            });
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire('Kategori silinmedi!', '', 'info')
                 }
-            });
+            })
+
+
         });
     });
 </script>

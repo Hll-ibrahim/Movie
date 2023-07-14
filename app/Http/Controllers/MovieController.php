@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
-    public function index() {
+    // Front
+    public function index() { // Front tarafındaki filmler
         $movies = Movie::orderBy('updated_at', 'ASC')->get();
         $categories = Category::orderBy('id', 'ASC')->get();
         return view('front/index', compact('movies','categories'));
@@ -21,30 +22,22 @@ class MovieController extends Controller
         $categories = Category::orderBy('id', 'ASC')->get();
         return view('front/single', compact('movie','categories'));
     }
-    public function create() {
-        $movies = Movie::orderBy('id', 'ASC')->get();
-        $categories = Category::orderBy('id', 'ASC')->get();
-        $directors = Director::orderBy('id', 'ASC')->get();
-        return view('back.movie.create', compact('movies','categories', 'directors'));
-    }
-    public function edit($id) {
-        $movie = Movie::findOrFail($id);
-        $directors = Director::orderBy('id', 'ASC')->get();
-        $categories = Category::orderBy('id', 'ASC')->get();
-        return view('back.movie.update',compact('movie', 'directors','categories'));
-    }
-    public function update(Request $request, $id) {
-        $movie = Movie::find($id);
+
+    // Back
+
+    public function updatePost (Request $request) {
+        $movie = Movie::where('id',$request->id)->first();
         $categories = Category::orderBy('created_at', 'ASC')->get();
 
-        $movie->name = $request->name;
-        $movie->image = $request->image;
-        $movie->director_id = $request->director_id;
-        $movie->rating = $request->rating;
-        $movie->description = $request->description;
+        $movie->name = $request->updateName;
+        $movie->image = $request->updateImage;
+        $movie->director_id = $request->updateDirectorId;
+        $movie->rating = $request->updateRating;
+        $movie->description = $request->updateDescription;
         $movie->updated_at = now();
         $movie->save();
 
+        /*
         foreach ($categories as $category){
             if($request->{$category->id} == "on") {
                 if($movie->isCategories($category->id)) {
@@ -64,8 +57,12 @@ class MovieController extends Controller
                 }
             }
         }
-        return redirect()->route('admin.movies');
+
+        */
+        return response()->json(['Success'=>'Success']);
     }
+
+
     public function store(Request $request) {
         $categories = Category::orderBy('id', 'ASC')->get();
         $movie = new Movie;
@@ -108,6 +105,10 @@ class MovieController extends Controller
         $movies = $category->movies()->get();
         $categories = Category::all();
         return view('front/index', compact('movies','categories'));
+    }
+
+    public function update(Request $request){
+        return Movie::where('id',$request->id)->get();
     }
 
 }
