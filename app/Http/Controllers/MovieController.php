@@ -8,6 +8,7 @@ use App\Models\Director;
 use App\Models\MoviesCategories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MovieController extends Controller
 {
@@ -29,15 +30,15 @@ class MovieController extends Controller
         $movie = Movie::where('id',$request->id)->first();
         $categories = Category::orderBy('created_at', 'ASC')->get();
 
-        $movie->name = $request->updateName;
-        $movie->image = $request->updateImage;
-        $movie->director_id = $request->updateDirectorId;
-        $movie->rating = $request->updateRating;
-        $movie->description = $request->updateDescription;
+        $movie->name = $request->name;
+        $movie->image = $request->image;
+        $movie->director_id = $request->director_id;
+        $movie->rating = $request->rating;
+        $movie->description = $request->description;
         $movie->updated_at = now();
         $movie->save();
 
-        /*
+
         foreach ($categories as $category){
             if($request->{$category->id} == "on") {
                 if($movie->isCategories($category->id)) {
@@ -58,12 +59,18 @@ class MovieController extends Controller
             }
         }
 
-        */
-        return response()->json(['Success'=>'Success']);
+        return redirect()->route('admin.movies');
     }
 
 
     public function store(Request $request) {
+        $validatedData = $request->validate([
+            'name'=>'required',
+            'image'=>'required',
+            'director_id'=>'required',
+            'rating'=>'required',
+            'description'=>'required',
+        ]);
         $categories = Category::orderBy('id', 'ASC')->get();
         $movie = new Movie;
 
@@ -76,6 +83,7 @@ class MovieController extends Controller
         $movie->created_at = now();
         $movie->updated_at = now();
         $movie->save();
+
         foreach ($categories as $category){
             $id = $category->id;
             if($request->{$id} == "on") {
@@ -85,7 +93,7 @@ class MovieController extends Controller
                 $movies_categories->save();
             }
         }
-        return redirect()->route('admin.movies');
+        return response()->json(['Success'=>'Başarıyla Silindi']);
     }
 
     public function delete($id) {
@@ -97,7 +105,7 @@ class MovieController extends Controller
             }
         }
         $movie->delete();
-        return redirect()->route('admin.movies');
+        return response()->json(['Success'=>'Başarıyla Silindi']);
     }
 
     public function category($id){
@@ -106,9 +114,15 @@ class MovieController extends Controller
         $categories = Category::all();
         return view('front/index', compact('movies','categories'));
     }
-
+ /*
     public function update(Request $request){
         return Movie::where('id',$request->id)->get();
     }
-
+*/
+    public function update($id) {
+        $movie = Movie::where('id',$id)->first();
+        $directors = Director::all();
+        $categories = Category::all();
+        return view('back.movie.update',compact('movie','directors','categories'));
+    }
 }

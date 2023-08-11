@@ -24,13 +24,12 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
 
 Route::prefix('admin')->name('admin.')->middleware('isUser')->group(function() {
-    Route::get('/', [DashboardController::class, 'movies'])->name('home');
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     Route::get('/movies',[DashboardController::class, 'movies'])->name('movies');
     Route::get('/movies/fetch',[DashboardController::class, 'movies_fetch'])->name('movies.fetch');
-    Route::get('/movie/update',[MovieController::class, 'update'])->name('movie.update');
+    Route::get('/movie/update/{id}',[MovieController::class, 'update'])->name('movie.update');
     Route::post('/movie/update/post',[MovieController::class, 'updatePost'])->name('movie.update.post');
-    Route::get('/movie/create', [MovieController::class, 'create'])->name('movie.create');
     Route::post('/movie/store',[MovieController::class, 'store'])->name('movie.store');
     Route::get('/movie/delete/{id}',[MovieController::class, 'delete'])->name('movie.delete');
 

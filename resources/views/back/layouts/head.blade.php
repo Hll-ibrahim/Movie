@@ -966,9 +966,6 @@
                     <li>
                         <a href="{{route('admin.movies')}}"><span>Bütün Filmler</span></a>
                     </li>
-                    <li>
-                        <a href="{{route('admin.movie.create')}}"><span>Film Ekle</span></a>
-                    </li>
                 </ul>
                 <h4>Yönetmenler</h4>
                 <ul class="">
