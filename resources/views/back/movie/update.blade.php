@@ -4,16 +4,18 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <span>Film Ekle</span>
+                    <span>Film Güncelle</span>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{route('admin.movie.update',$movie->id)}}" method="post">
+                <form action="{{route('admin.movie.update.post')}}" method="post">
                     @csrf
+                    <input type="hidden" name="id" value="{{$movie->id}}">
                     <div class="form-group my-4" >
                         <label for="name">Film Adı</label>
                         <input value="{{$movie->name}}" class="form-control" id="name" type="text" name="name" required>
                     </div>
+                    <img id="movie_image" src="{{$movie->image}}" height="150">
                     <div class="form-group my-4" >
                         <label for="image">Filmin Kapak Resmi (link)</label>
                         <input value="{{$movie->image}}" class="form-control" id="image" type="text" name="image" required>
@@ -58,4 +60,12 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        var movieImage = $('#image');
+        movieImage.change(function() { // Kullanıcı image değerini her değiştirdiğinde
+            $('#movie_image').attr('src',movieImage.val()); // post etmeden önce resmi görebilmek için yeni atanan #image value'sunu resmimize src olarak ekliyoruz
+        })
+    </script>
 @endsection

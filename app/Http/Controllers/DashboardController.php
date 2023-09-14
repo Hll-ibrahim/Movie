@@ -22,7 +22,7 @@ class DashboardController extends Controller
         $movies = Movie::where('admin_id',Auth::user()->id)->get();
         return DataTables::of($movies)
             ->addColumn('crud', function ($data) {
-                return ' <button class="btn btn-info" onclick="movieUpdate (' . $data->id . ')">' . '<i class="fa-sharp fa-solid fa-pen"></i></button>
+                return ' <a class="btn btn-info" href="'.route('admin.movie.update',$data->id).'">' . '<i class="fa-sharp fa-solid fa-pen"></i></a>
                          <button onclick="movieDelete (' . $data->id . ')" class="btn btn-danger"><i class="fa-solid fa-trash""></i></button>';
             })->editColumn('image',function($data) {
                 return '<img src="'.$data->image.'" height="150">';
@@ -44,7 +44,8 @@ class DashboardController extends Controller
     public function movies() {
         $movies = Movie::orderBy('created_at', 'ASC')->get();
         $directors = Director::all();
-        return view('back/movie/index', compact('movies','directors'));
+        $categories = Category::all();
+        return view('back/movie/index', compact('movies','directors','categories'));
     }
     public function directors() {
         $directors = Director::orderBy('created_at', 'ASC')->get();

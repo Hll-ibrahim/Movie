@@ -11,7 +11,7 @@
     @endif
 <div class="container mt-3">
     <h1>Kategoriler</h1>
-    <a class="btn btn-success" href="javascript:void(0)" id="createNewBook">Kategori Ekle</a>
+    <a class="btn btn-success" href="javascript:void(0)" id="createNewCategory">Kategori Ekle</a>
     <table class="table table-bordered data-table">
         <thead>
         <tr>
@@ -70,7 +70,7 @@
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
-        $('#createNewBook').click(function () {
+        $('#createNewCategory').click(function () {
             $('#saveBtn').val("create-category");
             $('#category_id').val('');
             $('#categoryForm').trigger("reset");
@@ -158,8 +158,6 @@
                     Swal.fire('Kategori silinmedi!', '', 'info')
                 }
             })
-
-
         });
     });
 </script>

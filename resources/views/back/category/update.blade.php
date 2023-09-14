@@ -4,11 +4,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <span>Kategori Ekle</span>
+                    <span>Kategori Güncelleme</span>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{route('admin.category.update',$category->id)}}" method="post">
+                <form action="{{route('admin.category.updatePost')}}" method="post">
                     @csrf
                     <div class="form-group my-4" >
                         <label for="name">Kategori Adı</label>
