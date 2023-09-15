@@ -27,27 +27,45 @@ class MovieController extends Controller
     // Back
 
     public function updatePost (Request $request) {
-        $movie = Movie::where('id',$request->id)->first();
+        $request->validate([
+            'update_name'=>'required',
+            'update_director_id'=>'required',
+            'update_rating'=>'required',
+            'update_description'=>'required',
+        ]);
+        $movie = Movie::where('id',$request->update_id)->first();
         $categories = Category::orderBy('created_at', 'ASC')->get();
 
         // image dosyasinin yuklenmesi
-        $file = $request->file("image");
-        $filePath = "documents/".$movie->name;
-        if(!$file->move($filePath,$file->getClientOriginalName())){
-            return response()->json(['Error'=>'Something wrong']);
+        if($request->has("update_image")){
+            // eger filmin zaten bir resmi varsa silinsin
+            if (!is_null($movie->image)) {
+                if (file_exists(public_path("documents/".$movie->id."/".$movie->image))) {
+                    unlink(public_path("documents/".$movie->id."/".$movie->image));
+                }
+            }
+
+            // yeni resim yuklensin
+            $file = $request->file("update_image");
+            $filePath = "documents/".$movie->id;
+            if(!$file->move($filePath,$file->getClientOriginalName())){
+                return response()->json(['Error'=>'Something wrong']);
+            }
+            $movie->image = $request->update_image->getClientOriginalName();
         }
 
-        $movie->name = $request->name;
-        $movie->image = $request->image->getClientOriginalName();
-        $movie->director_id = $request->director_id;
-        $movie->rating = $request->rating;
-        $movie->description = $request->description;
+
+        $movie->name = $request->update_name;
+        $movie->director_id = $request->update_director_id;
+        $movie->rating = $request->update_rating;
+        $movie->description = $request->update_description;
         $movie->updated_at = now();
         $movie->save();
 
 
         foreach ($categories as $category){
-            if($request->{$category->id} == "on") {
+            $updateKey = "update_" . $category->id;
+            if($request->$updateKey == "on") {
                 if($movie->isCategories($category->id)) {
                     continue;
                 }
@@ -66,7 +84,7 @@ class MovieController extends Controller
             }
         }
 
-        return redirect()->route('admin.movies');
+        return response()->json(['Success'=>'Movie updated successfully']);
     }
 
 
@@ -79,18 +97,14 @@ class MovieController extends Controller
             'description'=>'required',
         ]);
 
-        // image dosyasinin yuklenmesi
-        $file = $request->file("image");
-        $filePath = "documents/".$request->name;
-        if(!$file->move($filePath,$file->getClientOriginalName())){
-            return response()->json(['Error'=>'Something wrong']);
-        }
+
 
         $categories = Category::orderBy('id', 'ASC')->get();
         $movie = new Movie;
 
+
+
         $movie->name = $request->name;
-        $movie->image = $request->image->getClientOriginalName();
         $movie->director_id = $request->director_id;
         $movie->rating = $request->rating;
         $movie->description = $request->description;
@@ -98,6 +112,16 @@ class MovieController extends Controller
         $movie->created_at = now();
         $movie->updated_at = now();
         $movie->save();
+
+        // image dosyasinin yuklenmesi
+        $file = $request->file("image");
+        $filePath = "documents/".$movie->id;
+        if(!$file->move($filePath,$file->getClientOriginalName())){
+            return response()->json(['Error'=>'Something wrong']);
+        }
+        $movie->image = $request->image->getClientOriginalName();
+        $movie->save();
+
 
         foreach ($categories as $category){
             $id = $category->id;
@@ -109,7 +133,6 @@ class MovieController extends Controller
             }
         }
 
-        dd($movie->image);
         return response()->json(['Success'=>'Başarıyla Silindi']);
     }
 

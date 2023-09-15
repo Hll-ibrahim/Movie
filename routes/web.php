@@ -27,6 +27,7 @@ Route::prefix('admin')->name('admin.')->middleware('isUser')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     Route::get('/movies',[DashboardController::class, 'movies'])->name('movies');
+    Route::get('/movies/get',[DashboardController::class, 'movies_get'])->name('movies.get');
     Route::get('/movies/fetch',[DashboardController::class, 'movies_fetch'])->name('movies.fetch');
     Route::get('/movie/update/{id}',[MovieController::class, 'update'])->name('movie.update');
     Route::post('/movie/update/post',[MovieController::class, 'updatePost'])->name('movie.update.post');

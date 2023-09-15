@@ -70,7 +70,7 @@
                                 <select name="director_id" id="director_id" class="form-control">
                                     <option value="">Bir Yönetmen Seçiniz..</option>
                                     @foreach($directors as $director)
-                                        <option value="{{$director->id}}">{{$director->name}}</option>
+                                        <option id="update_director_{{$director->id}}" value="{{$director->id}}">{{$director->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -107,6 +107,78 @@
         </div>
     </div>
 
+    <!-- Update Movie Modal -->
+    <div class="modal fade" id="movie_update_modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">Film Güncelle</h5>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <form id="update_movie_form" method="post" enctype="multipart/form-data">
+                        <div class="row mt-3 mb-4">
+
+                            <input type="hidden" name="update_id" id="update_id" value="">
+                            <div class="form-group mb-4 col-12">
+                                <label class="mb-1" for="update_name" style="text-decoration: underline;">Film İsmi</label>
+                                <input type="text" name="update_name" id="update_name" placeholder="Film İsmini Giriniz.."
+                                       class="form-control"
+                                       value="" required>
+                            </div>
+
+                            <div class="form-group mb-4 col-12">
+                                <img src="" alt="" id="old_image" height="200px">
+                            </div>
+                            <div class="form-group mb-4 col-12">
+                                <label class="mb-1" for="update_image" style="text-decoration: underline;">Yeni Resim</label>
+                                <input type="file" name="update_image" id="update_image"
+                                       class="form-control"
+                                       value="" placeholder="Film Resmini Giriniz.." required>
+                            </div>
+                            <div class="form-group mb-4 col-12">
+                                <label class="mb-1" for="update_director_id" style="text-decoration: underline;">Yönetmen</label>
+                                <select name="update_director_id" id="update_director_id" class="form-control">
+                                    <option value="">Bir Yönetmen Seçiniz..</option>
+                                    @foreach($directors as $director)
+                                        <option value="{{$director->id}}">{{$director->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-4 col-12">
+                                <label class="mb-1" for="update_rating" style="text-decoration: underline;">Puanı</label>
+                                <input type="text" name="update_rating" id="update_rating"
+                                       class="form-control" value="" required>
+                            </div>
+
+                            <div class="form-group mb-4 col-12">
+                                <label class="mb-1" for="update_description" style="text-decoration: underline;">Açıklama</label>
+                                <textarea type="text" name="update_description" id="update_description"
+                                          class="form-control" required></textarea>
+                            </div>
+
+                            @foreach($categories as $category)
+                                <div class="form-group mb-4 col-12" >
+                                    <input type="checkbox" id="{{$category->id}}" name="{{$category->id}}">
+                                    <label for="{{$category->id}}">{{$category->name}}</label>
+                                </div>
+                                <br>
+                            @endforeach
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="movieUpdatePost()">Değişiklikleri Kaydet</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -141,6 +213,8 @@
         function movieCreate(){
             $('#movie_create_modal').modal("toggle");
         }
+
+
 
         function movieCreatePost() {
 
@@ -182,6 +256,29 @@
             });
         }
 
+        function updateModal(id) {
+            $.ajax({
+                type: 'GET',
+                url: '{!! route('admin.movies.get')!!}',
+                data: {id: id},
+                success: function (data) {
+                    console.log(data);
+                    $('#update_name').val(data.name);
+                    $('#old_image').attr('src', '/documents/' + data.id + '/' + data.image);
+                    $('#update_director_id').val(data.director_id);
+                    $('#update_rating').val(data.rating);
+                    $('#update_description').val(data.description);
+                    $('#update_id').val(id);
+
+                    $('#movie_update_modal').modal("toggle");
+
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                    alert(xhr.responseText);
+                }
+            });
+        }
 
         function movieUpdatePost() {
 
@@ -197,6 +294,12 @@
                 cache: false,
                 processData: false,
                 success: function (data) {
+                    $('#update_name').val('');
+                    $('#update_director_id').val('');
+                    $('#update_image').val('');
+                    $('#update_rating').val('');
+                    $('#update_description').val('');
+                    $('#update_id').val('');
                     Swal.fire({
                         icon: 'success',
                         title: 'Başarılı',
@@ -209,12 +312,12 @@
                     $('#movie_update_modal').modal("toggle");
 
                 },
-                error: function (data) {
-                    var err = JSON.parse(data.responseText);
+                error: function (xhr) {
+                    console.log(xhr.responseText);
                     Swal.fire({
                         icon: 'error',
                         title: 'Başarısız',
-                        html: err.message,
+                        html: xhr.responseText,
                         showConfirmButton: true,
                         confirmButtonText: "Tamam",
                     });
