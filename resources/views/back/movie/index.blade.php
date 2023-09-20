@@ -180,9 +180,6 @@
         </div>
     </div>
 
-
-
-
 @endsection
 @section('script')
     <script>
@@ -325,5 +322,49 @@
             });
         }
 
+        function movieDelete(id,name){
+            Swal.fire({
+                title: 'Dikkat',
+                html: name +' filmini silmek istediğinize emin misiniz?',
+                icon: 'warning',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Sonuçlandır',
+                denyButtonText: 'İptal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    alert(id);
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{route('admin.movie.delete')}}',
+                        data: {id: id},
+                        headers: {'X-CSRF-TOKEN': "{{csrf_token()}} "},
+                        success: function (data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Başarılı',
+                                html: 'Silme İşlemi Başarılı!',
+                                showConfirmButton: true,
+                                confirmButtonText: "Tamam",
+                            });
+
+                            dataTable.ajax.reload(null, false);
+                            $('#movie_update_modal').modal("toggle");
+
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Başarısız',
+                                html: xhr.responseText,
+                                showConfirmButton: true,
+                                confirmButtonText: "Tamam",
+                            });
+                        }
+                    });
+                }
+            })
+        }
     </script>
 @endsection

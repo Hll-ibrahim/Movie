@@ -22,8 +22,8 @@ class DashboardController extends Controller
         $movies = Movie::where('admin_id',Auth::user()->id)->get();
         return DataTables::of($movies)
             ->addColumn('crud', function ($data) {
-                return ' <button class="btn btn-info" onclick="updateModal('.$data->id.')">' . '<i class="fa-sharp fa-solid fa-pen"></i></button>
-                         <button onclick="movieDelete (' . $data->id . ')" class="btn btn-danger"><i class="fa-solid fa-trash""></i></button>';
+                return ' <button class="btn btn-info" onclick="updateModal('.$data->id.')">' . 'Düzenle</button>
+                         <button onclick="movieDelete(' . $data->id .',\'' . $data->name .'\')" class="btn btn-danger">Sil</button>';
             })->editColumn('image',function($data) {
                 return '<img src="'.asset("documents/$data->id/$data->image").'" height="150">';
             })->editColumn('director_id',function($data) {

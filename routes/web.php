@@ -32,7 +32,7 @@ Route::prefix('admin')->name('admin.')->middleware('isUser')->group(function() {
     Route::get('/movie/update/{id}',[MovieController::class, 'update'])->name('movie.update');
     Route::post('/movie/update/post',[MovieController::class, 'updatePost'])->name('movie.update.post');
     Route::post('/movie/store',[MovieController::class, 'store'])->name('movie.store');
-    Route::get('/movie/delete/{id}',[MovieController::class, 'delete'])->name('movie.delete');
+    Route::post('/movie/delete',[MovieController::class, 'delete'])->name('movie.delete');
 
     Route::get('/directors', [DashboardController::class, 'directors'])->name('directors');
     Route::get('/director/create', [DirectorController::class, 'create'])->name('director.create');

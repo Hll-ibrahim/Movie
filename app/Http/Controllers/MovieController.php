@@ -136,8 +136,16 @@ class MovieController extends Controller
         return response()->json(['Success'=>'Başarıyla Silindi']);
     }
 
-    public function delete($id) {
-        $movie = Movie::find($id);
+    public function delete(Request $request) {
+        $movie = Movie::find($request->id);
+
+        // eger filmin bir resmi varsa silinsin
+        if (!is_null($movie->image)) {
+            if (file_exists(public_path("documents/".$movie->id."/".$movie->image))) {
+                unlink(public_path("documents/".$movie->id."/".$movie->image));
+            }
+        }
+
         $categories = Category::orderBy('created_at','ASC')->get();
         foreach($categories as $category) {
             if($movie->isCategories($category->id)) {

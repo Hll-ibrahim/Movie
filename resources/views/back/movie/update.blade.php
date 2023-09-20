@@ -15,10 +15,10 @@
                         <label for="name">Film Adı</label>
                         <input value="{{$movie->name}}" class="form-control" id="name" type="text" name="name" required>
                     </div>
-                    <img id="movie_image" src="{{$movie->image}}" height="150">
+                    <img id="movie_image" src="{{asset("documents/".$movie->name."/".$movie->image)}}" height="150">
                     <div class="form-group my-4" >
-                        <label for="image">Filmin Kapak Resmi (link)</label>
-                        <input value="{{$movie->image}}" class="form-control" id="image" type="text" name="image" required>
+                        <label for="image">Filmin Kapak Resmi</label>
+                        <input type="file" class="form-control" id="image" name="image" required>
                     </div>
                     <div class="form-group my-4" >
                         <label for="description">Filmin Puanı</label>
@@ -60,12 +60,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
-    <script>
-        var movieImage = $('#image');
-        movieImage.change(function() { // Kullanıcı image değerini her değiştirdiğinde
-            $('#movie_image').attr('src',movieImage.val()); // post etmeden önce resmi görebilmek için yeni atanan #image value'sunu resmimize src olarak ekliyoruz
-        })
-    </script>
 @endsection
