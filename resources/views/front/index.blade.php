@@ -5,7 +5,7 @@
         <div class="col-lg-4">
             <div class="card my-5">
                 <img
-                    src="{{$movie->image}}"
+                    src="/documents/{{$movie->id}}/{{$movie->image}}"
                     alt=""
                     class="card-img-top img-thumbnail"
                 />
